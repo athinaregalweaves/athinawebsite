@@ -8,14 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
 dist-ssr
 *.local
-.env
-deploy_pack.zip
 
-# API secrets (Razorpay keys, etc.)
-public/api/secrets.local.php
+# API secrets (Razorpay keys, etc.) — add secrets.local.php manually if you create it
+# public/api/secrets.local.php
 
 # Editor directories and files
 .vscode/*

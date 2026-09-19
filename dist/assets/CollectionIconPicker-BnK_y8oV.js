@@ -1,0 +1,6 @@
+import{c,j as e}from"./index-DqMg1GFW.js";import{p as i,q as d,g as l}from"./collectionIcons-Dgg6LF5M.js";/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const p=c("ExternalLink",[["path",{d:"M15 3h6v6",key:"1q9fwt"}],["path",{d:"M10 14 21 3",key:"gplh6r"}],["path",{d:"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6",key:"a6xqqp"}]]);function h({value:t,onChange:n,label:r="Collection icon"}){return e.jsxs("div",{className:"space-y-2",children:[e.jsx("p",{className:"font-body text-sm text-foreground/80",children:r}),e.jsx("p",{className:"font-body text-xs text-muted-foreground",children:"Shown next to the name on the public collection page and in the admin menu."}),e.jsx("div",{className:"grid grid-cols-5 gap-2 sm:grid-cols-10",children:i.map(o=>{const s=l(o),a=t===o;return e.jsx("button",{type:"button",title:d[o],onClick:()=>n(o),className:`flex items-center justify-center h-10 w-full rounded-md border transition-colors ${a?"border-maroon bg-maroon/10 ring-1 ring-maroon":"border-border hover:border-foreground/25 bg-background"}`,children:e.jsx(s,{size:18,strokeWidth:1.5,className:"text-foreground"})},o)})})]})}export{h as C,p as E};

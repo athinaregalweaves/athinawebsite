@@ -1,0 +1,1 @@
+import{r as t}from"./index-DqMg1GFW.js";import{f as i}from"./sitePageApi-BaN3_9Dg.js";function g(e,r){const[s,n]=t.useState(r),[a,f]=t.useState(!0);return t.useEffect(()=>{let o=!0;return i(e).then(u=>{o&&(n(u),f(!1))}),()=>{o=!1}},[e]),{content:s,loading:a,setContent:n}}export{g as u};
