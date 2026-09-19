@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 15 30% 94%;
+    --foreground: 20 10% 8%;
+
+    --card: 14 25% 91%;
+    --card-foreground: 20 10% 8%;
+
+    --popover: 15 30% 94%;
+    --popover-foreground: 20 10% 8%;
+
+    --primary: 350 50% 22%;
+    --primary-foreground: 40 25% 96%;
+
+    --secondary: 14 22% 87%;
+    --secondary-foreground: 20 10% 8%;
+
+    --muted: 14 18% 89%;
+    --muted-foreground: 20 8% 35%;
+
+    --accent: 35 65% 48%;
+    --accent-foreground: 20 10% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 35 18% 78%;
+    --input: 35 18% 78%;
+    --ring: 350 50% 22%;
+
+    --radius: 0px;
+
+    --gold: 35 65% 48%;
+    --gold-light: 35 45% 68%;
+    --gold-dark: 35 70% 35%;
+    --ivory: 15 28% 94%;
+    --ivory-warm: 12 32% 91%;
+    --charcoal: 20 10% 8%;
+    --charcoal-mid: 20 8% 18%;
+    --maroon: 350 50% 22%;
+    --maroon-light: 350 35% 32%;
+    --maroon-deep: 355 33% 33%;
+    --cream: 12 28% 90%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Lining figures everywhere (avoids old-style “wavy” digits in serif body copy — phones, dates, etc.) */
+  html {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.55;
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
+    overflow-x: clip;
+    /* Avoid iOS overscroll white gutters */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #root {
+    min-height: 100dvh;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+    color: hsl(var(--charcoal));
+  }
+}
+
+/* Global readability bump for utility text sizes used across app */
+.text-xs { font-size: 0.9rem !important; }
+.text-sm { font-size: 1rem !important; }
+.text-base { font-size: 1.08rem !important; }
+[class*="text-[9px]"] { font-size: 11px !important; }
+[class*="text-[10px]"] { font-size: 12px !important; }
+[class*="text-[11px]"] { font-size: 13px !important; }
+[class*="text-[12px]"] { font-size: 14px !important; }
+[class*="text-[13px]"] { font-size: 15px !important; }
+
+@layer utilities {
+  /* Rupee amounts: lining/tabular digits + bold, sans stack (matches “normal” price look) */
+  .font-amount {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    font-weight: 700;
+  }
+  .font-amount-muted {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    font-weight: 400;
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+  .text-gold-dark {
+    color: hsl(var(--gold-dark));
+  }
+  .bg-ivory {
+    background-color: hsl(var(--ivory));
+  }
+  .bg-ivory-warm {
+    background-color: hsl(var(--ivory-warm));
+  }
+  .bg-charcoal {
+    background-color: hsl(var(--charcoal));
+  }
+  .bg-charcoal-mid {
+    background-color: hsl(var(--charcoal-mid));
+  }
+  .bg-maroon {
+    background-color: hsl(var(--maroon));
+  }
+  .bg-cream {
+    background-color: hsl(var(--cream));
+  }
+  .text-ivory {
+    color: hsl(var(--ivory));
+  }
+  .border-gold {
+    border-color: hsl(var(--gold));
+  }
+  .border-gold-light {
+    border-color: hsl(var(--gold-light));
+  }
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+}
+
+@layer components {
+  /**
+   * Page content width + symmetric horizontal inset.
+   * Uses max(..., safe-area-inset) so body text aligns on notched phones (no extra gap on one side).
+   */
+  .luxury-container {
+    width: 100%;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 640px) {
+    .luxury-container {
+      padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+      padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .luxury-container {
+      padding-left: max(3rem, env(safe-area-inset-left, 0px));
+      padding-right: max(3rem, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .luxury-container {
+      padding-left: max(5rem, env(safe-area-inset-left, 0px));
+      padding-right: max(5rem, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  .editorial-spacing {
+    @apply py-20 md:py-28 lg:py-36;
+  }
+
+  .luxury-heading {
+    @apply font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1];
+    color: hsl(var(--charcoal));
+  }
+
+  .luxury-heading-hero {
+    @apply font-display text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tight leading-[1.05];
+  }
+
+  .luxury-subheading {
+    @apply font-display text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight;
+  }
+
+  .luxury-body {
+    @apply font-body text-base md:text-lg font-medium leading-relaxed;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .luxury-body-large {
+    @apply font-body text-lg md:text-xl font-medium leading-relaxed;
+  }
+
+  .luxury-caption {
+    @apply font-body text-xs md:text-sm uppercase tracking-[0.3em] font-semibold;
+  }
+
+  .luxury-btn {
+    @apply inline-block px-10 py-4 border-2 font-body text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 ease-out;
+    border-color: hsl(var(--charcoal));
+    color: hsl(var(--charcoal));
+  }
+
+  .luxury-btn:hover {
+    background-color: hsl(var(--charcoal));
+    color: hsl(var(--ivory));
+  }
+
+  .luxury-btn-gold {
+    @apply inline-block px-10 py-4 border-2 font-body text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 ease-out;
+    border-color: hsl(var(--gold));
+    color: hsl(var(--gold));
+  }
+
+  .luxury-btn-gold:hover {
+    background-color: hsl(var(--gold));
+    color: hsl(var(--charcoal));
+  }
+
+  .luxury-btn-light {
+    @apply inline-block px-10 py-4 border-2 font-body text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 ease-out;
+    border-color: hsl(var(--ivory));
+    color: hsl(var(--ivory));
+  }
+
+  .luxury-btn-light:hover {
+    background-color: hsl(var(--ivory));
+    color: hsl(var(--charcoal));
+  }
+
+  .luxury-btn-filled {
+    @apply inline-block px-10 py-4 font-body text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 ease-out;
+    background-color: hsl(var(--charcoal));
+    color: hsl(var(--ivory));
+  }
+
+  .luxury-btn-filled:hover {
+    background-color: hsl(var(--maroon));
+  }
+
+  .luxury-divider {
+    @apply w-20 h-[2px] mx-auto my-8;
+    background-color: hsl(var(--gold));
+  }
+
+  .luxury-divider-left {
+    @apply w-20 h-[2px] my-6;
+    background-color: hsl(var(--gold));
+  }
+
+  .saree-card {
+    @apply cursor-pointer;
+  }
+
+  .saree-card-image {
+    @apply overflow-hidden;
+  }
+
+  .saree-card-image img {
+    @apply w-full h-full object-cover transition-all duration-700 ease-out;
+  }
+
+  .saree-card:hover .saree-card-image img {
+    @apply scale-105;
+    filter: brightness(1.05);
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--ivory));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--gold));
+}
+
+/* Hide scrollbar but keep scroll functionality (used for galleries). */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Product page readability tuning */
+.product-detail-readable .text-xs { font-size: 0.98rem !important; }
+.product-detail-readable .text-sm { font-size: 1.08rem !important; }
+.product-detail-readable .text-base { font-size: 1.16rem !important; }
+.product-detail-readable [class*="text-[9px]"] { font-size: 12px !important; }
+.product-detail-readable [class*="text-[10px]"] { font-size: 13px !important; }
+.product-detail-readable [class*="text-[11px]"] { font-size: 14px !important; }
+.product-detail-readable [class*="text-[12px]"] { font-size: 15px !important; }
+.product-detail-readable [class*="text-[13px]"] { font-size: 16px !important; }
+.product-detail-readable [class*="text-[14px]"] { font-size: 17px !important; }
+.product-detail-readable [class*="text-[15px]"] { font-size: 18px !important; }
+
+/* Selection */
+::selection {
+  background: hsl(var(--gold) / 0.3);
+  color: hsl(var(--charcoal));
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lineExpand {
+  from { width: 0; }
+  to { width: 5rem; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-fade-in-slow {
+  animation: fadeIn 1.4s ease-out forwards;
+}
+
+.animate-scale-reveal {
+  animation: scaleReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-line-expand {
+  animation: lineExpand 1s ease-out forwards;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+.animation-delay-800 {
+  animation-delay: 0.8s;
+}
+
+/* ===== Text Slide Up Animation ===== */
+.text-slide {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.text-slide .text-slide-current,
+.text-slide .text-slide-next {
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.text-slide .text-slide-next {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(100%);
+  color: inherit;
+}
+
+.text-slide:hover .text-slide-current {
+  transform: translateY(-100%);
+}
+
+.text-slide:hover .text-slide-next {
+  transform: translateY(0);
+}
+
+/* ===== Arrow Tilt on Hover ===== */
+.arrow-tilt {
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-block;
+}
+
+.group:hover .arrow-tilt,
+a:hover > .arrow-tilt,
+button:hover > .arrow-tilt,
+a:hover .arrow-tilt,
+button:hover .arrow-tilt {
+  transform: rotate(-45deg);
+}
